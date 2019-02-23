@@ -2,7 +2,7 @@
 
 This repository has the Solidity code of the Proof of Stake and Proof of Work contract as well as the mining software.
 
-For the documentation of the miner see my other repository with the Miner Documentation. 
+For the documentation of the miner see my other repository with "Miner Documentation". 
 
 How to start staking?
 - Go to the staking contract on etherscan: https://etherscan.io/address/0x5cda2019d03e0af7ec28114327707872fd16f412#code 
