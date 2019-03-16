@@ -14,7 +14,7 @@ How to start staking?
 -- For the amount, fill in the desired amount and ADD 18 ZEROS TO IT. So if you want to stake 1 ITN, you will fill in: "1000000000000000000". To make it yourself easy, you can simply copy the zeros: 000000000000000000
 - Now, you've approved the staking contract to take your coins and stake them safely where nobody can steal them.
 - Go to the staking contract: [LINK OF STAKING ADDRESS]
-- Click "mint" and fill in THE SAME amount you approved the contract with. So in the case described above it will be "1000000000000000000"
+- Finally, go to the box which says "mint" and for the "amount" fill in THE SAME amount you approved the contract with (or less, but that'd be a waste!). So in the case described above it will be "1000000000000000000"
 
 And that's it!
 
