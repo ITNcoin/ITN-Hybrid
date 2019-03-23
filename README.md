@@ -19,3 +19,17 @@ How to start staking?
 And that's it!
 
 If you decide to claim your staking reward, go to the staking contract: https://etherscan.io/address/0x296215d1ee44a7a89ee059d5a9c217dc3298565a#writeContract and click "stopMint". Voilà! You now have more coins!
+
+## Mining
+
+- Download the "ITNMiner.py" file
+
+- If you don't have Python already: download & install Python: https://www.python.org/downloads/
+
+- Download "Build Tools for Visual Studio 2017" from: https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2017
+
+- Select Workloads --> Visual C++ build tools
+
+- Install options: select only the "Windows 10 SDK" (assuming your PC is on Windows 10)
+
+- Run the miner! The miner will guide you through the rest off the process.
