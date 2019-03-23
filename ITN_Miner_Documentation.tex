@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage[english]{babel}
+\usepackage{url}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{hyperref}
+
+\title{ITN Miner Documentation}
+\author{The Internet Coin}
+\date{March 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+The Internet Coin miner is a cryptocurrency miner written in Python. It tries to solve cryptographical puzzles provided by a dedicated smart contract on the Ethereum network. When the miner has a solution, it publishes its solutions to the smart contract to claim the blockreward. 
+
+\section{The system}
+In this section, the outlines of the system\footnote{We define the system as: the combination of the smart contract and the mining software.} are explained. With contract, smart contract, etc. we mean the program that's providing the miners with puzzles to solve on the Ethereum network.
+
+\subsection{The Smart Contract}
+The smart contract on the Ethereum network functions as the provider of the cryptographical puzzles to be solved by the miners. \\
+The smart contract comes up with a public viewable challenge to be hashed together with the miner's address\footnote{The address of the miner has to be included to prevent spying eyes from publishing your solution.} and a nonce. When a miner publishes its solution, the contract checks whether the provided hash is valid: the hash has to be under the specified target and the hash has to be result of hashing the provided data together. \\
+If the provided hash is indeed valid, the contract will reward the miner with the current blockreward. However, if the miner publishes an invalid solution, the contract will revert the transaction. In this case, the miner (obviously) does not get the blockreward and loses the gas required to check if his solution is valid. This immediately gives the miner an incentive to only submit valid solutions since it will lose gas if it's an invalid solution. After every block the contract comes up with another unpredictable\footnote{The miners on the Ethereum network can determine this hash up to a certain extend. A powerful miner on the Ethereum network can thus win up to 15 seconds of hashing time on the contract. Since the contract is not considered to be a great target and many other things will fail when something like that happens, we consider this as unpredictable enough.} challenge to be hashed by the miner. The contract uses the hash of the previous block on the Ethereum network to build up this challenge. \\
+Each epoch\footnote{A period in which all blocks have the same mining target/difficulty.} the target gets adjusted to ensure the actual blocktimes slowly converges to the desired blocktime. \\
+\\
+The initial blockreward is 200 $ITN$. Each 25,000 blocks the blockreward halves. With a blocktime of 10 minutes, that results in a halving each 174 days. As a convergent sum: $$\lim_{x\to\infty} \sum_{n=0}^{x} 25000 \cdot \frac{200}{2^n} = 10,000,000$$ So a total of 10 million $ITN$ is available to mine. The first halving is estimated to occur at the end of July/beginning of August after which the first 5 million $ITN$ is mined etc. \\ \\
+On the contract, some debugging functions are defined such as: \begin{verbatim}
+    function testHASH(uint256 nonce, bytes32 challenge_digest)
+\end{verbatim}  
+These functions are used to debug the miner and check whether a solution is valid or not without making a transaction.
+
+\subsection{The Mining Software}
+The conract and miner both use the native KECCAK256/SHA3 to produce hashes.\\
+When starting the miner, the miner makes calls to the contract to get the required information to start hashing. Since it could happen that someone else finds a valid block before your miner does and thus invalidates your solution and thus makes your miner waste time, the miner checks on a regular interval whether the puzzle has updated or not. The duration of this interval can easily be modified by the miner to make calls faster to not lose hashing time or make it slower when the miner has a slow network. Since everyones mining setup is different, the miners have to find an optimum for themselves. The default interval time is 5 seconds.\\
+When a miner finds a valid solution, it builds a transactions locally and signs it with his private key. Once succesfully signed, it publishes the raw transaction to the network using the Infura WEB3 provider\footnote{A default project ID is included. If a miner does not want to be merged in one Infura project he can simply use a different ID. Other WEB3 providers work as well.}. \\
+To make the transaction go through the network, the address belonging to the private key has to have some ethereum on it. It is HIGHLY(!) recommended to make a new address and fuel that address with some Ethereum\footnote{At current gas fees, 0.05 ether will provide you with approximately 300 potential blockreward claims.}.
+A default gas price and gas limit is set in the code but can easily be changed to ones preferences. A few preconfigured settings come with the miner:
+\begin{itemize}
+\item slow: low gas usage but slower transactions
+\item normal: normal gas usage and normal transaction speed
+\item fast: high gas usage but fast transactions
+\end{itemize}
+Each miner can determine for themselves whether they want fast transactions and thus have a slightly higher chance of getting the blockreward but pay some more gas for it or to go with the normal or cheap option. This obviously depends on the miner's situation. For those who want to manually set the gas price\footnote{Be cautious when manually changing gas parameters and only do this if you know what you're doing. Wrong values will immediately result in losing funds.}, the paramaters in the code are easily adjustable.
+\pagebreak
+
+\subsubsection{Dependencies}
+The miner is written in Python and makes use of the following modules:
+\begin{itemize}
+    \item web3 \url{https://github.com/ethereum/web3.py}
+    \item json (native) \url{https://docs.python.org/3/library/json.html}
+    \item threading (native) \url{https://docs.python.org/3/library/threading.html}
+    \item time (native) \url{https://docs.python.org/3/library/time.html}
+\end{itemize}
+
+\subsubsection{Installation process}
+
+\begin{itemize}
+ \item   Download the "ITNMiner.py" file
+
+ \item   If you don't have Python already: download & install Python:  \url {https://www.python.org/downloads/}
+
+ \item   Download "Build Tools for Visual Studio 2017" from: \url{https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2017} 
+    
+    \item Select Workloads, Visual C++ build tools
+    
+    \item Install options: select only the "Windows 10 SDK" (assuming your PC is on Windows 10)
+    
+   \item  Run the miner! The miner will guide you through the rest off the process.
+\end{itemize}
+
+
+\end{document}
