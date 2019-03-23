@@ -18,4 +18,4 @@ How to start staking?
 
 And that's it!
 
-If you decide to claim your staking reward, go to the staking contract: https://etherscan.io/address/0x296215d1ee44a7a89ee059d5a9c217dc3298565a#code and click "stopMint". Voilà! You now have more coins!
+If you decide to claim your staking reward, go to the staking contract: https://etherscan.io/address/0x296215d1ee44a7a89ee059d5a9c217dc3298565a#writeContract and click "stopMint". Voilà! You now have more coins!
