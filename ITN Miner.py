@@ -185,7 +185,7 @@ while True:
     except:
         print("Please chose a valid option. ")
         
-contractAddress = "0xB980884c02Db3C92f96ee2f13A150F8A620E5136"
+contractAddress = "0x29B7b3Cc8D6a8ef9153e67CAB128C3A603DCb674"
 projectID = "815ca6b994884e5184182d8dfd9cf96a"
 web3, contract = initContract(contractAddress)
 
